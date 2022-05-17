@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Group;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/debug', static function (){
+    $projects = Project::all();
+    ddd($projects);
 });
