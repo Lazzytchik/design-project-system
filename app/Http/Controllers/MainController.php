@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Discipline;
-use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class MainController extends Controller
 {
+
     /**
-     * Returns user's page view.
+     * Returns view of main page.
      *
      * @return Factory|View|Application
      */
     public function index(): Factory|View|Application
     {
-        return view('user.index');
+        return view('index');
     }
 }

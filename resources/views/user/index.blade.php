@@ -7,5 +7,5 @@
 @endsection
 
 @section('content')
-    <p class="p">Здесь будет личный кабинет пользователя</p>
+    <x-user.projects :user-id="auth()->user()->id"/>
 @endsection

@@ -16,10 +16,15 @@ class ProjectFactory extends Factory
      */
     public function definition()
     {
+        $slug = $this->faker->userName();
+
         return [
-            'name' => '',
-            'code' => '',
-            'path'
+            'name' => $slug,
+            'code' => $slug,
+            'theme' => $this->faker->userName(),
+            'discipline_id' => 1,
+            'user_id' => 1,
+            'publish_date' => now()
         ];
     }
 }
