@@ -7,11 +7,5 @@
 @endsection
 
 @section('content')
-
-    @if(session()->has('success'))
-        <div>
-            <p>{{session('success')}}</p>
-        </div>
-    @endif
     <p class="p">Немного контента</p>
 @endsection

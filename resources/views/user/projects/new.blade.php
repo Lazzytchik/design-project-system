@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Галерея')
+@section('title', 'Новый проект')
 
 @section('sidebar')
     @parent
 @endsection
 
 @section('content')
-    <x-user.projects :projects="$projects"/>
+    <x-user.projects.new :disciplines="$disciplines"/>
 @endsection

@@ -1,0 +1,6 @@
+.user-projects-wrap{
+    display: grid;
+    grid-template-columns: repeat(5, 300px);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}

@@ -1,0 +1,84 @@
+.project-preview-link{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.project-preview{
+    width: 300px;
+    height: 300px;
+
+    box-sizing: border-box;
+
+    background: #8C84E3;
+    border: 1px solid rgba(79, 60, 198, 0.6);
+    filter: drop-shadow(1px 4px 10px rgba(0, 0, 0, 0.75));
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.project-preview:hover{
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition-duration: 0.3s;
+}
+
+.project-actions{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.33) 0%, rgba(255, 255, 255, 0) 100%);
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.project-preview-edit-link{
+    z-index: 2;
+    padding: 10px;
+
+    box-sizing: border-box;
+    border: solid 1px rgba(0, 0, 0, 0);
+}
+
+.project-preview-delete-link{
+    padding: 10px;
+    z-index: 2;
+
+    box-sizing: border-box;
+    border: solid 1px rgba(0, 0, 0, 0);
+}
+
+.action-icon:hover{
+    border: solid 1px white;
+    transition-duration: 0.3s;
+}
+
+.project-preview-bottom{
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(360deg, rgba(0, 0, 0, 0.33) 0%, rgba(255, 255, 255, 0) 100%);
+
+    display: flex;
+}
+
+.project-title{
+    align-self: flex-end;
+
+    margin: 0 0 20px 20px;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+

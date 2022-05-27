@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'index'])->middleware('auth');
 
-Route::get('/auth', [SessionController::class, 'create']);
+Route::get('/auth', [SessionController::class, 'create'])->name('auth');
 Route::post('/auth', [SessionController::class, 'store']);
 
 Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth');
@@ -35,5 +35,8 @@ Route::post('/register', [RegisterController::class, 'store'])->middleware('gues
 Route::get('/events', [EventsController::class, 'index'])->middleware('auth');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->middleware('auth');
+Route::get('/gallery/{project}', [GalleryController::class, 'details'])->middleware('auth');
 
 Route::get('/user', [UserController::class, 'index'])->middleware('auth');
+Route::get('/user/projects/new', [UserController::class, 'newProjectForm'])->middleware('auth');
+Route::post('/user/projects/new', [UserController::class, 'newProject'])->middleware('auth');

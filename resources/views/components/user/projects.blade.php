@@ -1,7 +1,14 @@
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/components/user/projects.css') }}">
+@endpush
+
 <div class="user-projects">
     <div class="user-projects-wrap">
+        @if($create)
+            <x-projects.new />
+        @endif
         @foreach($projects as $project)
-            <p>bruh</p>
+            <x-projects.preview :project="$project" />
         @endforeach
     </div>
 </div>

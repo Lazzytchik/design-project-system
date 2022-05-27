@@ -13,7 +13,7 @@ class Project extends Model
     protected $table = 'projects';
 
     /**
-     * Connects project to the user
+     * Connects projects to the user
      *
      * @return BelongsTo
      */
@@ -23,7 +23,7 @@ class Project extends Model
     }
 
     /**
-     * Connects project to a discipline.
+     * Connects projects to a discipline.
      *
      * @return BelongsTo
      */

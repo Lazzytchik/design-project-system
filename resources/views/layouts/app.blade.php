@@ -1,8 +1,10 @@
 <html>
     <head>
-        <title>App Name - @yield('title')</title>
+        <title>SUDPI - @yield('title')</title>
         <link rel="stylesheet" href="{{asset('css/fonts.css')}}">
         <link rel="stylesheet" href="{{asset('css/layouts/app.css')}}">
+        @stack('styles')
+        @stack('scripts')
     </head>
     <body>
         <div class="wrapper">
@@ -47,6 +49,12 @@
                     <main class="content">
                         <div class="content-wrapper">
                             @yield('content')
+
+                            @if(session()->has('success'))
+                                <div class="flash">
+                                    <p class="p">{{session('success')}}</p>
+                                </div>
+                            @endif
                         </div>
                     </main>
                 </div>

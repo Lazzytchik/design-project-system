@@ -12,7 +12,8 @@
         "itsgoingd/clockwork": "^5.1",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "alexeymezenin/laravel-russian-slugs": "0.9.*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"

@@ -11,7 +11,7 @@ class Discipline extends Model
     use HasFactory;
 
     /**
-     * Connects discipline to project.
+     * Connects discipline to projects.
      *
      * @return HasMany
      */

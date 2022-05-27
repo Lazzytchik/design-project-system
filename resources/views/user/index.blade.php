@@ -7,5 +7,5 @@
 @endsection
 
 @section('content')
-    <x-user.projects :user-id="auth()->user()->id"/>
+    <x-user.projects :projects="$projects" :create="true"/>
 @endsection

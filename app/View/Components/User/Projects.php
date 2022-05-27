@@ -13,17 +13,17 @@ class Projects extends Component
 {
 
     public Collection $projects;
+    public bool $create;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(int $userId)
+    public function __construct(Collection $projects, bool $create = false)
     {
-        $this->userId = $userId;
-
-        $this->projects = User::find($userId)->projects()->get();
+        $this->projects = $projects;
+        $this->create = $create;
     }
 
     /**

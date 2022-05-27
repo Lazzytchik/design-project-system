@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,6 +17,23 @@ class GalleryController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        return view('gallery.index');
+        $projects = Project::all();
+
+        return view('gallery.index', [
+            'projects' => $projects
+        ]);
+    }
+
+    /**
+     * Detail page of a project.
+     *
+     * @param Project $project
+     * @return Factory|View|Application
+     */
+    public function details(Project $project): Factory|View|Application
+    {
+        return view('gallery.detail', [
+            'project' => $project
+        ]);
     }
 }
