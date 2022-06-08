@@ -1,0 +1,67 @@
+/*   GENERAL RULES   */
+
+.text-input{
+    width: 250px;
+    padding: 5px;
+    border: 2px solid rgba(79, 60, 198, 0.1)
+}
+
+.text-input:focus{
+    outline: none;
+    border-radius: 10px;
+    border: 2px solid rgba(79, 60, 198, 0.3);
+}
+
+.select-input{
+    width: 250px;
+    padding: 5px;
+    border: 2px solid rgba(79, 60, 198, 0.1)
+}
+
+.select-input:focus{
+    outline: none;
+    border-radius: 10px;
+    border: 2px solid rgba(79, 60, 198, 0.3);
+}
+
+.file-input{
+    
+}
+
+.select-option{
+
+}
+
+.form-field{
+    padding: 5px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*   FORM FIELD FOR NAME   */
+.name-field{
+
+}
+
+.name-field-input{
+
+}
+
+.name-field-input:focus{
+    outline: none;
+    border-radius: 10px;
+    border: 2px solid rgba(79, 60, 198, 0.3);
+}
+
+/*   FORM FIELD FOR CODE   */
+.code-field{
+
+}
+.code-field-input{
+
+}
+
+/*   THEME FIELD FOR CODE   */

@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Discipline;
+use App\Models\File;
 use App\Models\Project;
 use App\Models\User;
+use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Collection;
+use JetBrains\PhpStorm\NoReturn;
 
 class UserController extends Controller
 {
@@ -21,8 +25,7 @@ class UserController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $userId = auth()->user()->id;
-        $projects = User::find($userId)->projects()->get();
+        $projects = auth()->user()->projects()->with(['user', 'preview'])->get();
 
         return view('user.index', [
             'projects' => $projects
@@ -41,15 +44,22 @@ class UserController extends Controller
     /**
      * Result of a post request to create a new project
      *
+     * @param Request $request
+     *
      * @return Redirector|Application|RedirectResponse
      */
-    public function newProject(): Redirector|Application|RedirectResponse
+    #[NoReturn] public function newProject(Request $request): Redirector|Application|RedirectResponse
     {
-        $attributes = request()->validate([
+
+
+        //ddd(Project::with('preview')->where('id', 20)->get());
+
+        $attributes = $request->validate([
             'name' => 'required',
             'code' => 'required',
             'discipline_id' => ['required', 'exists:disciplines,id'],
             'theme' => ['min:3', 'required'],
+            'preview' => ['required', 'mimes:jpg,jpeg,png'],
             'files' => ['required']
         ]);
 
@@ -57,11 +67,31 @@ class UserController extends Controller
 
         // TODO Store files
 
-        unset($attributes['files']);
+        unset($attributes['files'], $attributes['preview']);
 
-        Project::factory(1)->create($attributes);
+        /**
+         * @var \Illuminate\Http\UploadedFile $file
+         */
+        $file = $request->preview;
 
-        return redirect('/')->with('success', 'Проект успешно создан');
+        $preview = new File([
+            'original_name' => $file->getClientOriginalName(),
+            'extension' => $file->getClientOriginalExtension(),
+            'mime_type' => $file->getMimeType(),
+            'size' => $file->getSize()
+        ]);
+        $preview->save();
+
+        $attributes['preview_id'] = $preview->id;
+
+        /**
+         * @var Project $project
+         */
+        $project = Project::factory(1)->create($attributes)->load('preview')->first();
+
+        $project->storePreview($request->preview);
+
+        return redirect('/user')->with('success', 'Проект успешно создан');
 
     }
 }

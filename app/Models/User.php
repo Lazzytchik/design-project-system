@@ -76,4 +76,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+
+    /**
+     * Checks if user is Teacher or not
+     *
+     *
+     * @return bool
+     */
+    public function isTeacher(): bool
+    {
+        return $this->group->id === Group::TEACHER;
+    }
 }

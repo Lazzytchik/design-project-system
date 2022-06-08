@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 return new class extends Migration
 {
@@ -20,7 +22,9 @@ return new class extends Migration
             $table->string('theme');
             $table->foreignId('discipline_id')->constrained('disciplines');
             $table->foreignId('user_id')->constrained('users');
-            $table->date('publish_date');
+            $table->string('external_id');
+            $table->foreignId('preview_id')->nullable()->constrained('files');
+            $table->date('publish_date')->nullable();
             $table->timestamps();
         });
     }
@@ -33,5 +37,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('projects');
+        Storage::disk('public')->deleteDirectory(Project::PREVIEW_DIRECTORY);
+        Storage::deleteDirectory(Project::FILES_DIRECTORY);
     }
 };

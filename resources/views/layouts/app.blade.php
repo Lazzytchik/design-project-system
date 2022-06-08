@@ -2,7 +2,8 @@
     <head>
         <title>SUDPI - @yield('title')</title>
         <link rel="stylesheet" href="{{asset('css/fonts.css')}}">
-        <link rel="stylesheet" href="{{asset('css/layouts/app.css')}}">
+        <link rel="stylesheet" href="{{asset('css/layouts/app.scss')}}">
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
         @stack('styles')
         @stack('scripts')
     </head>
@@ -44,7 +45,9 @@
             @show
                 <div class="main">
                     <header class="main-header">
-                        <h1 class="main-header__title h1">@yield('title')</h1>
+                        <div class="main-header-wrapper">
+                            <h1 class="main-header__title h1">@yield('title')</h1>
+                        </div>
                     </header>
                     <main class="content">
                         <div class="content-wrapper">
@@ -57,6 +60,11 @@
                             @endif
                         </div>
                     </main>
+                    <footer class="main-footer">
+                        <div class="footer-wrapper">
+                            <p class="footer-p p">footer</p>
+                        </div>
+                    </footer>
                 </div>
         </div>
     </body>

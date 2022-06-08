@@ -1,0 +1,6 @@
+.project-new-form{
+    width: 700px;
+
+    display: flex;
+    flex-direction: column;
+}

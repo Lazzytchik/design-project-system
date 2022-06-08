@@ -17,7 +17,7 @@ class GalleryController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $projects = Project::all();
+        $projects = Project::with('user')->get();
 
         return view('gallery.index', [
             'projects' => $projects
