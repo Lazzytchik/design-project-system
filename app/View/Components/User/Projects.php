@@ -23,7 +23,7 @@ class Projects extends Component
     public function __construct(Collection $projects, bool $create = false)
     {
         $this->projects = $projects;
-        $this->create = $create;
+        $this->create = $create && !auth()->user()->isTeacher();
     }
 
     /**

@@ -3,6 +3,7 @@
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
@@ -35,7 +36,14 @@ Route::post('/register', [RegisterController::class, 'store'])->middleware('gues
 Route::get('/events', [EventsController::class, 'index'])->middleware('auth');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->middleware('auth');
-Route::get('/gallery/{project}', [GalleryController::class, 'details'])->middleware('auth');
+Route::get('/gallery/{project}', [ProjectController::class, 'details'])->middleware('auth');
+
+Route::get('/gallery/{project}/edit', [ProjectController::class, 'edit'])->middleware('auth');
+Route::post('/gallery/{project}/edit', [ProjectController::class, 'editSave'])->middleware('auth');
+
+Route::get('/gallery/{project}/delete', [ProjectController::class, 'delete'])->middleware('auth');
+
+Route::get('/gallery/{project}/publish', [ProjectController::class, 'publish'])->middleware('auth')->middleware('teacher');
 
 Route::get('/user', [UserController::class, 'index'])->middleware('auth');
 Route::get('/user/projects/new', [UserController::class, 'newProjectForm'])->middleware('auth');

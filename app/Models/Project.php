@@ -11,9 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin Builder
+ * @property mixed $publish_date
+ * @property mixed $user
  */
 class Project extends Model
 {
@@ -23,6 +26,10 @@ class Project extends Model
     public const PREVIEW_DIRECTORY = 'img/projects';
 
     protected $table = 'projects';
+
+    protected $guarded = [
+        'external_id',
+    ];
 
     /**
      * Connects projects to the user
@@ -76,6 +83,16 @@ class Project extends Model
         return $this->user->id === $user->id;
     }
 
+    /**
+     * Returns true if project is public.
+     *
+     * @return bool
+     */
+    public function isPublic(): bool
+    {
+        return $this->publish_date !== null;
+    }
+
 
     /**
      * @param $files
@@ -97,7 +114,43 @@ class Project extends Model
      */
     public function storePreview(UploadedFile $preview): false|string
     {
-        return $preview->storeAs($this->getPreviewDirectory(), $this->preview->original_name, ['disk' => 'public']);
+        return $preview->storeAs($this->getPreviewDirectory(), $preview->getClientOriginalName(), ['disk' => 'public']);
+    }
+
+    /**
+     * Deletes preview file and model.
+     *
+     * @return bool
+     */
+    protected function deletePreview(): bool
+    {
+        Storage::disk('public')->delete($this->getPreviewPath());
+        $this->preview->delete();
+
+        return true;
+    }
+
+    /**
+     * Switches preview File.
+     *
+     * @param File $file
+     * @param UploadedFile $uploadedFile
+     * @return bool
+     */
+    public function switchPreview(File $file, UploadedFile $uploadedFile): bool
+    {
+        $preview = $this->preview;
+
+        $this->preview_id = $file->id;
+        $this->save();
+
+        if ($preview !== null){
+            $this->deletePreview();
+        }
+
+        $this->storePreview($uploadedFile);
+
+        return true;
     }
 
     public function getPreview(): string
@@ -112,7 +165,7 @@ class Project extends Model
      */
     public function getPreviewDirectory(): string
     {
-        return self::PREVIEW_DIRECTORY.'/'.$this->external_id.'/preview';
+        return self::PREVIEW_DIRECTORY.'/'.$this->external_id;
     }
 
     /**
@@ -120,9 +173,34 @@ class Project extends Model
      *
      * @return string
      */
-    public function getPreviewPath(): string
+    #[Pure] public function getPreviewPath(): string
     {
         return $this->getPreviewDirectory().'/'.$this->preview->original_name;
     }
 
+    /**
+     * Publishes project only
+     *
+     * @return void
+     */
+    public function publish(): void
+    {
+        $this->publish_date = now();
+        $this->save();
+    }
+
+    /**
+     * Delete project
+     *
+     * @return bool|null
+     */
+    public function delete(): ?bool
+    {
+        $result = parent::delete();
+
+        $this->deletePreview();
+        Storage::disk('public')->deleteDirectory($this->getPreviewDirectory());
+
+        return $result;
+    }
 }

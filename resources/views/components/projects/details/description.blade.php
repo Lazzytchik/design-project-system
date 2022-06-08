@@ -14,10 +14,13 @@
     </div>
     <div class="project-field__static">
         <span class="project-publish-label">Дата публикации</span>
-        <span class="project-publish-span">{{$project->publish_date}}</span>
-    </div>
-    <div class="project-field__static">
-        <span class="project-preview-label">Путь до превью</span>
-        <span class="project-preview-span">{{$project->getPreviewPath()}}</span>
+        <span class="project-publish-span">{{$project->publish_date ?? 'Не опубликован'}}</span>
     </div>
 </div>
+@if(auth()->user()->isTeacher() && !$project->isPublic())
+
+    <div class="teacher-actions">
+        <button onclick="location.href = '/gallery/{{$project->id}}/publish'">Опубликовать</button>
+    </div>
+
+@endif

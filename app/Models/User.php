@@ -14,10 +14,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    private const STUDENT_GROUP = 1;
-
     protected $attributes = [
-        'group_id' => self::STUDENT_GROUP
+        'group_id' => Group::STUDENT
     ];
 
     /**
@@ -85,6 +83,6 @@ class User extends Authenticatable
      */
     public function isTeacher(): bool
     {
-        return $this->group->id === Group::TEACHER;
+        return $this->group_id === Group::TEACHER;
     }
 }

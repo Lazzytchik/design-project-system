@@ -20,12 +20,12 @@ class Group extends Model
     /**
      * Constant for teachers group
      */
-    public const TEACHER = 1;
+    public const TEACHER = 2;
 
     /**
      * Constant for students group
      */
-    public const STUDENT = 2;
+    public const STUDENT = 1;
 
     /**
      * Get users belong to this group

@@ -25,7 +25,12 @@ class UserController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $projects = auth()->user()->projects()->with(['user', 'preview'])->get();
+
+        if (auth()->user()->isTeacher()){
+            $projects = Project::with(['user', 'preview'])->whereNull('publish_date')->get();
+        }else{
+            $projects = auth()->user()->projects()->with(['user', 'preview'])->get();
+        }
 
         return view('user.index', [
             'projects' => $projects

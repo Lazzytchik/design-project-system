@@ -11,14 +11,14 @@
         @csrf
         <div class="form-field name-field">
             <label class="name-field-label p" for="name">Название проекта</label>
-            <input id="name" type="text" class="name-field-input text-input p" name="name" value="{{@old('name')}}">
+            <input id="name" type="text" class="name-field-input text-input p" name="name" value="{{$project->name}}">
             @error('name')
             <p>{{$message}}</p>
             @enderror
         </div>
         <div class="form-field code-field">
             <label class="code-field-label p" for="code">Ссылка на проект</label>
-            <input id="code" type="text" class="code-field-input text-input p" name="code" value="{{@old('code')}}">
+            <input id="code" type="text" class="code-field-input text-input p" name="code" value="{{$project->code}}">
             @error('code')
             <p>{{$message}}</p>
             @enderror
@@ -29,7 +29,7 @@
                 @foreach($disciplines as $discipline)
                     <option
                         value="{{$discipline->id}}"
-                        @if(old('$discipline_id') === $discipline->id)
+                        @if($project->discipline->id === $discipline->id)
                         selected
                         @endif
                     >
@@ -43,21 +43,21 @@
         </div>
         <div class="form-field theme-field">
             <label class="theme-field-label p" for="theme">Тема</label>
-            <input id="theme" type="text" class="theme-field-input text-input p" name="theme" value="{{@old('theme')}}">
+            <input id="theme" type="text" class="theme-field-input text-input p" name="theme" value="{{$project->theme}}">
             @error('theme')
             <p>{{$message}}</p>
             @enderror
         </div>
         <div class="form-field files-field">
             <label class="files-field-label p" for="preview">Файл превью</label>
-            <input id="preview" type="file" class="files-field-input p" name="preview" required multiple value="{{@old('preview')}}">
+            <input id="preview" type="file" class="files-field-input p" name="preview" multiple value="{{@old('preview')}}">
             @error('preview')
             <p>{{$message}}</p>S
             @enderror
         </div>
         <div class="form-field files-field">
             <label class="files-field-label p" for="files">Файлы проекта</label>
-            <input id="files" type="file" class="files-field-input p" name="files[]" multiple required value="{{@old('files')}}">
+            <input id="files" type="file" class="files-field-input p" name="files[]" multiple value="{{@old('files')}}">
             @error('files')
             <p>{{$message}}</p>
             @enderror

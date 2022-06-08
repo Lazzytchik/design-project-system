@@ -7,5 +7,5 @@
 @endsection
 
 @section('content')
-    <x-projects.details :project="$project"/>
+    <x-projects.details.edit :project="$project" :disciplines="$disciplines"/>
 @endsection

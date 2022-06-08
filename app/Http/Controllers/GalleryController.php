@@ -17,23 +17,10 @@ class GalleryController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $projects = Project::with('user')->get();
+        $projects = Project::with('user')->whereNotNull('publish_date')->get();
 
         return view('gallery.index', [
             'projects' => $projects
-        ]);
-    }
-
-    /**
-     * Detail page of a project.
-     *
-     * @param Project $project
-     * @return Factory|View|Application
-     */
-    public function details(Project $project): Factory|View|Application
-    {
-        return view('gallery.detail', [
-            'project' => $project
         ]);
     }
 }
