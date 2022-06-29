@@ -25,7 +25,6 @@ class UserController extends Controller
      */
     public function index(): Factory|View|Application
     {
-
         if (auth()->user()->isTeacher()){
             $projects = Project::with(['user', 'preview'])->whereNull('publish_date')->get();
         }else{
@@ -55,17 +54,13 @@ class UserController extends Controller
      */
     #[NoReturn] public function newProject(Request $request): Redirector|Application|RedirectResponse
     {
-
-
-        //ddd(Project::with('preview')->where('id', 20)->get());
-
         $attributes = $request->validate([
             'name' => 'required',
             'code' => 'required',
             'discipline_id' => ['required', 'exists:disciplines,id'],
             'theme' => ['min:3', 'required'],
-            'preview' => ['required', 'mimes:jpg,jpeg,png'],
-            'files' => ['required']
+            'preview' => ['mimes:jpg,jpeg,png'],
+            'files' => []
         ]);
 
         $attributes['user_id'] = auth()->user()->id;
@@ -75,26 +70,30 @@ class UserController extends Controller
         unset($attributes['files'], $attributes['preview']);
 
         /**
-         * @var \Illuminate\Http\UploadedFile $file
-         */
-        $file = $request->preview;
-
-        $preview = new File([
-            'original_name' => $file->getClientOriginalName(),
-            'extension' => $file->getClientOriginalExtension(),
-            'mime_type' => $file->getMimeType(),
-            'size' => $file->getSize()
-        ]);
-        $preview->save();
-
-        $attributes['preview_id'] = $preview->id;
-
-        /**
          * @var Project $project
          */
-        $project = Project::factory(1)->create($attributes)->load('preview')->first();
+        $project = Project::factory(1)->create($attributes)->first();
 
-        $project->storePreview($request->preview);
+        if (isset($request->preview)){
+            /**
+             * @var \Illuminate\Http\UploadedFile $file
+             */
+            $file = $request->preview;
+
+            $preview = new File([
+                'original_name' => $file->getClientOriginalName(),
+                'extension' => $file->getClientOriginalExtension(),
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'directory' => $project->getPreviewDirectory(),
+                'public' => true,
+            ]);
+            $preview->save();
+            $preview->store($request->preview);
+
+            $project->preview_id = $preview->id;
+            $project->save();
+        }
 
         return redirect('/user')->with('success', 'Проект успешно создан');
 

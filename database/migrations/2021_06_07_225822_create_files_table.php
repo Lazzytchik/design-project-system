@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('original_name');
             $table->string('extension');
             $table->string('mime_type');
+            $table->boolean('public');
+            $table->string('directory', 500);
             $table->integer('size')->unsigned();
             $table->timestamps();
         });

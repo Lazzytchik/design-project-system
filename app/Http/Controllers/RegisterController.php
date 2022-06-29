@@ -30,6 +30,6 @@ class RegisterController extends Controller
         auth()->login($user);
         //session()->flash('success', 'Вы успешно зарегистрировались');
 
-        return redirect('/')->with('success', 'Вы успешно зарегистрировались');;
+        return redirect('/')->with('success', 'Вы успешно зарегистрировались');
     }
 }

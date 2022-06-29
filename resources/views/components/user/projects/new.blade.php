@@ -50,14 +50,14 @@
         </div>
         <div class="form-field files-field">
             <label class="files-field-label p" for="preview">Файл превью</label>
-            <input id="preview" type="file" class="files-field-input p" name="preview" required multiple value="{{@old('preview')}}">
+            <input id="preview" type="file" class="files-field-input p" name="preview" multiple value="{{@old('preview')}}">
             @error('preview')
             <p>{{$message}}</p>S
             @enderror
         </div>
         <div class="form-field files-field">
             <label class="files-field-label p" for="files">Файлы проекта</label>
-            <input id="files" type="file" class="files-field-input p" name="files[]" multiple required value="{{@old('files')}}">
+            <input id="files" type="file" class="files-field-input p" name="files[]" multiple value="{{@old('files')}}">
             @error('files')
             <p>{{$message}}</p>
             @enderror

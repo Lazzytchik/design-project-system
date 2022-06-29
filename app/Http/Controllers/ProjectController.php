@@ -79,13 +79,16 @@ class ProjectController extends Controller
                 'original_name' => $file->getClientOriginalName(),
                 'extension' => $file->getClientOriginalExtension(),
                 'mime_type' => $file->getMimeType(),
-                'size' => $file->getSize()
+                'size' => $file->getSize(),
+                'directory' => $project->getPreviewDirectory(),
+                'public' => true,
             ]);
             $preview->save();
+            $preview->store($request->preview);
+
+            $project->switchPreview($preview, $request->preview);
 
             $attributes['preview_id'] = $preview->id;
-
-            $project->switchPreview($preview ,$request->preview);
         }
 
         $project->update($attributes);

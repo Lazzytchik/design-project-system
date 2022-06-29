@@ -17,6 +17,7 @@ use JetBrains\PhpStorm\Pure;
  * @mixin Builder
  * @property mixed $publish_date
  * @property mixed $user
+ * @property File $preview
  */
 class Project extends Model
 {
@@ -24,6 +25,8 @@ class Project extends Model
 
     public const FILES_DIRECTORY = '/projects';
     public const PREVIEW_DIRECTORY = 'img/projects';
+
+    private const PREVIEW_EMPTY = '';
 
     protected $table = 'projects';
 
@@ -124,7 +127,6 @@ class Project extends Model
      */
     protected function deletePreview(): bool
     {
-        Storage::disk('public')->delete($this->getPreviewPath());
         $this->preview->delete();
 
         return true;
@@ -135,6 +137,7 @@ class Project extends Model
      *
      * @param File $file
      * @param UploadedFile $uploadedFile
+     *
      * @return bool
      */
     public function switchPreview(File $file, UploadedFile $uploadedFile): bool
@@ -143,19 +146,11 @@ class Project extends Model
 
         $this->preview_id = $file->id;
         $this->save();
+        $preview?->delete();
 
-        if ($preview !== null){
-            $this->deletePreview();
-        }
-
-        $this->storePreview($uploadedFile);
+        $file->store($uploadedFile);
 
         return true;
-    }
-
-    public function getPreview(): string
-    {
-        return Storage::get($this->getPreviewPath());
     }
 
     /**
@@ -175,7 +170,11 @@ class Project extends Model
      */
     #[Pure] public function getPreviewPath(): string
     {
-        return $this->getPreviewDirectory().'/'.$this->preview->original_name;
+        if ($this->preview !== null){
+            return $this->getPreviewDirectory().'/'.$this->preview->original_name;
+        }
+
+        return self::PREVIEW_EMPTY;
     }
 
     /**
@@ -198,9 +197,21 @@ class Project extends Model
     {
         $result = parent::delete();
 
-        $this->deletePreview();
-        Storage::disk('public')->deleteDirectory($this->getPreviewDirectory());
+        if ($this->preview !== null){
+            $this->deletePreview();
+        }
+        $this->deletePreviewDirectory();
 
         return $result;
+    }
+
+    /**
+     * Deletes preview directory.
+     *
+     * @return void
+     */
+    protected function deletePreviewDirectory(): void
+    {
+        Storage::disk('public')->deleteDirectory($this->getPreviewDirectory());
     }
 }
